@@ -3,7 +3,6 @@ const Schema = mongoose.Schema;
 const userSchema = mongoose.model('User').schema;
 
 const ideaSchema = new Schema({
-  author: userSchema,
   text: {
     type: String,
     required: true,

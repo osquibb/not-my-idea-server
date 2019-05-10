@@ -16,10 +16,18 @@ usersRouter.route('/')
     res.json(users);
   }, err => next(err))
   .catch(err => next(err));
-})
+}).delete((req,res,next) => {
+  Users.deleteMany({}, err => console.log('Error: ' + err))
+  .then(resp => {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.json(resp);
+  }, err => next(err))
+  .catch(err => next(err));
+});
 
 usersRouter.post('/signup', (req, res, next) => {
-  User.findOne({username: req.body.username})
+  Users.findOne({username: req.body.username})
   .then((user) => {
     if(user !== null) {
       var err = new Error('User ' + req.body.username + ' already exists!');
@@ -27,7 +35,7 @@ usersRouter.post('/signup', (req, res, next) => {
       next(err);
     }
     else {
-      return User.create({
+      return Users.create({
         username: req.body.username,
         password: req.body.password});
     }
