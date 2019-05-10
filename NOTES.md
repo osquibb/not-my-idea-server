@@ -1,5 +1,9 @@
 157.230.54.50
 
+express server on :3000
+mongodb server on localhost:27017
+(localhost is the droplet)
+
 ## MongoDB Server Start
  - Create MongoDB server directory with data sub directory
  - Install MongoDB on Ubuntu (see docs)
