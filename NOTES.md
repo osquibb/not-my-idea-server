@@ -5,3 +5,10 @@
  ## MongoDB Server CLI
  - "mongo"
 
+ ## Digital Ocean Droplet Firewall
+ - "sudo ufw status"
+ - "sudo ufw allow 5000/tcp"
+
+ 
+
+
