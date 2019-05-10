@@ -1,19 +1,19 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const Users = require('../models/users');
+const Ideas = require('../models/ideas');
 
-const usersRouter = express.Router();
+const ideasRouter = express.Router();
 
-usersRouter.use(bodyParser.json());
+ideasRouter.use(bodyParser.json());
 
-usersRouter.route('/')
-.get((req,res,next) => {
-  Users.find({})
-  .then(users => {
+ideasRouter.route('/')
+.get((req,res,next) => { 
+  Ideas.find({})
+  .then(ideas => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
-    res.json({text: 'All Users'});
+    res.json(ideas);
   }, err => next(err))
   .catch(err => next(err));
 });
