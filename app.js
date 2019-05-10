@@ -10,7 +10,7 @@ var ideasRouter = require('./routes/ideas');
 
 const mongoose = require('mongoose');
 
-const url = 'mongodb://localhost:27017/notMyIdea';
+const url = 'mongodb://157.230.54.50:27017/notMyIdea';
 const connect = mongoose.connect(url, { useNewUrlParser: true,
                                         useCreateIndex: true });
 
