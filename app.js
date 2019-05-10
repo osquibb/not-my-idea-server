@@ -15,7 +15,7 @@ const connect = mongoose.connect(url, { useNewUrlParser: true,
                                         useCreateIndex: true });
 
 connect.then(db => {
-  console.log('Connected correctly to server');
+  console.log('Connected to MongoDB server');
 }, err => {
   console.log(err);
 });
