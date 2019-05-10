@@ -16,6 +16,18 @@ ideasRouter.route('/')
     res.json(ideas);
   }, err => next(err))
   .catch(err => next(err));
+})
+.post((req,res,next) => {
+  Ideas.create(req.body)
+  .then(idea => {
+    console.log('Idea Created ', idea);
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.json(idea);
+  }, err => next(err))
+  .catch(err => next(err));
 });
 
-//.post, .delete, etc...
+// .put, .delete, etc...
+
+module.exports = ideasRouter;

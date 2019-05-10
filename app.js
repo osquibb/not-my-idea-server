@@ -11,7 +11,8 @@ var ideasRouter = require('./routes/ideas');
 const mongoose = require('mongoose');
 
 const url = 'mongodb://localhost:27017/notMyIdea';
-const connect = mongoose.connect(url);
+const connect = mongoose.connect(url, { useNewUrlParser: true,
+                                        useCreateIndex: true });
 
 connect.then(db => {
   console.log('Connected correctly to server');
