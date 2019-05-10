@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const userSchema = mongoose.model('User').schema;
 
 const ideaSchema = new Schema({
   author: userSchema,
