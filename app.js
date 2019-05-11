@@ -30,7 +30,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'not-my-idea-app/build')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
