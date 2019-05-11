@@ -1,0 +1,3 @@
+[submodule "not-my-idea-app"]
+	path = not-my-idea-app
+	url = https://github.com/osquibb/not-my-idea-app.git
