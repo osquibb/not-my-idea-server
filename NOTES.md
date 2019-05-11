@@ -1,8 +1,9 @@
 157.230.54.50
 
-express server on :3000
-mongodb server on localhost:27017
+- express server on :3000
+- mongodb server on localhost:27017
 (localhost is the droplet)
+- client (react app) API requests directed to http://localhost:3000
 
 ## MongoDB Server Start
  - Create MongoDB server directory with data sub directory
@@ -15,6 +16,19 @@ mongodb server on localhost:27017
  ## Digital Ocean Droplet Firewall
  - "sudo ufw status"
  - "sudo ufw allow 5000/tcp" (also: "delete allow 5000/tcp, deny 5000/tcp, allow from 5000/tcp, etc...)
+
+## React App client on Express server
+- put react app in client/ dir on express server
+- For API requests, add "proxy": "http://{...}:3000" to react app's package.json
+- "npm run build"
+- In Express server app.js :
+
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
 
  
 
