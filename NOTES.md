@@ -10,7 +10,7 @@
 
 ## MongoDB Server Start
  - Create MongoDB server directory with data sub directory
- - Install MongoDB on Ubuntu (see docs)
+ - Install MongoDB on Ubuntu (see docs. apt get...)
  - navigate to monogodb dir and run "mongod --dbpath=data --bind_ip 127.0.0.1" to start up mongodb
  
  ## MongoDB Server CLI
@@ -36,7 +36,7 @@ app.get('/', function(req, res) {
 - To initialize: "git submodule init", then "git submodule update"
 
 - To pull from master: "git submodule update --recursive --remote"
-
+ (remember to re-rerun npm run build on app after pull from master)
 
  
 

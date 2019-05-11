@@ -42,7 +42,7 @@ ideasRouter.route('/:ideaId')
   .catch(err => next(err));
 })
 .delete((req,res,next) => {
-  Ideas.deleteOne({id: req.params.ideaId})
+  Ideas.deleteOne({_id: req.params.ideaId})
   .then(idea => {
     console.log("Idea Deleted: ", idea);
     res.statusCode = 200;
