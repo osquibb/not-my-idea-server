@@ -6,7 +6,7 @@
 - express server on :3000
 - mongodb server on localhost:27017
 (localhost is the droplet)
-- client (react app) API requests directed to http://localhost:3000
+
 
 ## MongoDB Server Start
  - Create MongoDB server directory with data sub directory
