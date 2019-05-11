@@ -23,22 +23,34 @@ ideasRouter.route('/')
     rank: req.body.rank
   })
   .then(idea => {
-    console.log('Idea Created ', idea);
+    console.log('Idea Created: ', idea);
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
     res.json(idea);
   }, err => next(err))
   .catch(err => next(err));
-})
-.delete((req,res,next) => {
-  Ideas.deleteMany({}, err => console.log('Error: ' + err))
-  .then(resp => {
+});
+
+ideasRouter.route('/:ideaId')
+.put((req,res,next) => {
+  Ideas.findById(req.params.ideaId)
+  .then(idea => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
-    res.json(resp);
+    res.json(idea);  
   }, err => next(err))
   .catch(err => next(err));
+})
+.delete((req,res,next) => {
+  Ideas.deleteOne({id: req.params.ideaId})
+  .then(idea => {
+    console.log("Idea Deleted: ", idea);
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.json(idea);
+  }, err => next(err));
 });
+
 
 // .put, .delete, etc...
 
