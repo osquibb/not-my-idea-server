@@ -38,6 +38,9 @@ app.get('/', function(req, res) {
 - To pull from master: "git submodule update --recursive --remote"
  (remember to re-rerun npm run build on app after pull from master)
 
+ ## Not-my-idea-server pull from origin master (github repo)
+ - "git pull origin master"
+
  
 
 

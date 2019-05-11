@@ -33,7 +33,9 @@ ideasRouter.route('/')
 
 ideasRouter.route('/:ideaId')
 .put((req,res,next) => {
-  Ideas.findById(req.params.ideaId)
+  Ideas.findByIdAndUpdate(req.params.ideaId, {
+    $set: req.body
+  }, { new: true })
   .then(idea => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
