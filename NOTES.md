@@ -1,3 +1,6 @@
+## TODO:
+- Add express server ideas router http methods to match redux Action Creators
+
 157.230.54.50
 
 - express server on :3000
@@ -28,6 +31,11 @@ app.use(express.static(path.join(__dirname, 'build')));
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
+
+## Not-my-idea-app git submodule
+- To initialize: "git submodule init", then "git submodule update"
+
+- To pull from master: "git submodule update --recursive --remote"
 
 
  
