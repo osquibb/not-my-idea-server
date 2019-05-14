@@ -15,6 +15,8 @@
  
  ## MongoDB Server CLI
  - "mongo"
+ - "use notMyIdea"
+ - "db.ideas.find().pretty();"
 
  ## Digital Ocean Droplet Firewall
  - "sudo ufw status"
