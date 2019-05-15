@@ -47,4 +47,10 @@ app.get('/', function(req, res) {
  - "netstat -ap tcp"
  - or... "netstat -ap tcp | grep -i "listen"" to search for ports with state: LISTEN
 
+ ## MongoDB Update
+ - "mongo"
+ - "use notMyIdea"
+ - Example: "db.users.update({"username": "admin"}, {$set: {"admin": true}})"
+
+
 
