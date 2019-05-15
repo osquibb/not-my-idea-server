@@ -43,6 +43,8 @@ app.get('/', function(req, res) {
  ## Not-my-idea-server pull from origin master (github repo)
  - "git pull origin master"
 
- 
+ ## Current tcp ports in use
+ - "netstat -ap tcp"
+ - or... "netstat -ap tcp | grep -i "listen"" to search for ports with state: LISTEN
 
 
