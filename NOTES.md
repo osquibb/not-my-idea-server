@@ -58,5 +58,7 @@ app.get('/', function(req, res) {
 - "openssl req -new -key private.key -out cert.csr"
 - "openssl x509 -req -in cert.csr -signkey private.key -out certificate.pem"
 
+- NOTE: Postman settings SSL Certificate Verification OFF when using OpenSSL self-signed.  Otherwise Postman won't accept.
+
 
 
