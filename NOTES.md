@@ -52,5 +52,11 @@ app.get('/', function(req, res) {
  - "use notMyIdea"
  - Example: "db.users.update({"username": "admin"}, {$set: {"admin": true}})"
 
+ ## OpenSSL (Local only SSL)
+- in bin/...
+- "openssl genrsa 1024 > private.key"
+- "openssl req -new -key private.key -out cert.csr"
+- "openssl x509 -req -in cert.csr -signkey private.key -out certificate.pem"
+
 
 
