@@ -7,6 +7,8 @@ const ideasRouter = express.Router();
 
 ideasRouter.use(bodyParser.json());
 
+// TODO: Implement Cours and authentication middleware...
+
 ideasRouter.route('/')
 .get((req,res,next) => { 
   Ideas.find({})

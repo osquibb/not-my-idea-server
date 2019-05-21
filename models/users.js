@@ -14,7 +14,19 @@ const userSchema = new Schema({
   admin:   {
       type: Boolean,
       default: false
-  }
+  },
+  likedIdeas: [
+                {
+                  type: mongoose.Schema.Types.ObjectId,
+                  ref: 'Idea'
+                }
+              ],
+  flaggedIdeas: [
+                  {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'Idea'
+                  }
+                ]
 }, {
     timestamps: true
   });

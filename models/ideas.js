@@ -8,9 +8,16 @@ const ideaSchema = new Schema({
     required: true,
     maxlength: 140
   },
-  rank: {
+  likedRank: {
     type: Number,
     required: true,
+    default: 0,
+    min: 0
+  },
+  flaggedRank: {
+    type: Number,
+    required: true,
+    default: 0,
     min: 0
   }
 }, {
