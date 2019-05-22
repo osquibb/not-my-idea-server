@@ -3,6 +3,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var passport = require('passport');
+var authenticate = require('./authenticate');
+var config = require('./config');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -10,7 +13,7 @@ var ideasRouter = require('./routes/ideas');
 
 const mongoose = require('mongoose');
 
-const url = 'mongodb://localhost:27017/notMyIdea';
+const url = config.mongoUrl;
 const connect = mongoose.connect(url, { useNewUrlParser: true,
                                         useCreateIndex: true });
 
@@ -31,6 +34,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'not-my-idea-app/build')));
+app.use(passport.initialize());
+// don't need session with jwt?
+app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

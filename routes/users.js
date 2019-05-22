@@ -2,14 +2,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const authenticate = require('../authenticate');
-const cors = require('./cors');
-const Users = require('../models/users');
+const cors = require('../cors');
+const User = require('../models/users');
+const Ideas = require('../models/ideas');
 
 const usersRouter = express.Router();
 usersRouter.use(bodyParser.json());
 
-// GET users listing at users/ endpoint. 
-// (Note restrictive middleware)
 usersRouter.get('/', cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
     Users.find({})
       .populate('likedIdeas')
@@ -22,43 +21,41 @@ usersRouter.get('/', cors.corsWithOptions, authenticate.verifyUser, authenticate
       .catch(err => next(err));
 });
 
-// New user creation at users/signup endpoint
 usersRouter.post('/signup', cors.corsWithOptions, (req, res, next) => {
-    Users.register(new User({username: req.body.username}), 
-                   req.body.password, (err, user) => {
-      if(err) {
-        res.statusCode = 500;
-        res.setHeader('Content-Type', 'application/json');
-        res.json({err: err});
+  User.register(new User({username: req.body.username}), 
+    req.body.password, (err, user) => {
+    if(err) {
+      res.statusCode = 500;
+      res.setHeader('Content-Type', 'application/json');
+      res.json({err: err});
+    }
+    else {
+      if (req.body.firstname) {
+        user.firstname = req.body.firstname;
       }
-      else {
-        if (req.body.firstname) {
-          user.firstname = req.body.firstname;
+      if (req.body.lastname) {
+        user.lastname = req.body.lastname;
+      }
+      user.save((err, user) => {
+        if (err) {
+          res.statusCode = 500;
+          res.setHeader('Content-Type', 'application/json');
+          res.json({err: err});
+          return;
         }
-        if (req.body.lastname) {
-          user.lastname = req.body.lastname;
-        }
-        user.save((err, user) => {
-          if (err) {
-            res.statusCode = 500;
-            res.setHeader('Content-Type', 'application/json');
-            res.json({err: err});
-            return;
-          }
-          passport.authenticate('local')(req, res, () => {
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
-            res.json({success: true, status: 'Registration Successful!'});
-          });
+        passport.authenticate('local')(req, res, () => {
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.json({success: true, status: 'Registration Successful!'});
         });
-      }
-    });
+      });
+    }
+  });
 });
 
-// User Login
 usersRouter.post('/login', cors.corsWithOptions, passport.authenticate('local'), (req, res) => {
   
-  var token = authenticate.getToken({_id: req.user._id});
+  let token = authenticate.getToken({_id: req.user._id});
 
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');
@@ -69,7 +66,6 @@ usersRouter.post('/login', cors.corsWithOptions, passport.authenticate('local'),
           });
 });
 
-// User Logout
 usersRouter.get('/logout', cors.corsWithOptions, (req, res) => {
   if (req.session) {
     req.session.destroy();
@@ -86,13 +82,13 @@ usersRouter.get('/logout', cors.corsWithOptions, (req, res) => {
 // NOTE: Every user has likedIdeas and flaggedIdeas
 // arrays by default.  Empty arrays at start.
 
-// GET and POST to likedIdeas
+
 usersRouter.route('/likedIdeas')
 .all(cors.corsWithOptions, authenticate.verifyUser, (req,res,next) => {
   next();
 })
 .get((req,res,next) => {
-  Users.findById(req.user._id)
+  User.findById(req.user._id)
   .populate('likedIdeas')
   .then(user => {
     if (user) {
@@ -109,12 +105,20 @@ usersRouter.route('/likedIdeas')
   .catch(err => next(err));
 })
 .post((req,res,next) => {
-  Users.findById(req.user._id)
+  User.findById(req.user._id)
   .then(user => {
     if (user) {
       for (let i=0; i < req.body.length; i++) {
+        // if idea not already in user's liked ideas
         if (user.likedIdeas.indexOf(req.body[i]._id) === -1) {
-          user.likedIdeas.push(req.body[i]._id);
+          // find idea in Ideas collection and increment likedIdeas
+          Ideas.findByIdAndUpdate(req.body[i]._id, {
+            $inc: {likedRank: 1}
+          }, { new: true })
+          // then add idea id to user's liked ideas
+          .then(idea => {
+            user.likedIdeas.push(idea._id);
+          }, err => next(err))
         }
       }
       user.save()
@@ -133,13 +137,17 @@ usersRouter.route('/likedIdeas')
   .catch(err => next(err));
 });
 
-// DELETE a specific idea from likedIdeas
 usersRouter.delete('/likedIdeas/:ideaId', cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
-  Users.findById(req.user._id)
+  User.findById(req.user._id)
   .then(user => {
     if (user) {
       const foundIdx = user.likedIdeas.indexOf(req.params.ideaId);
+      // if idea in user's liked ideas
       if (foundIdx !== -1) {
+        Ideas.findByIdAndUpdate(req.params.ideaId, {
+          $inc: {likedRank: -1}
+        }, { new: true }))
+        .then() //...
         user.likedIdeas.splice(foundIdx, 1);
         user.save()
           .then(user => {
@@ -163,13 +171,12 @@ usersRouter.delete('/likedIdeas/:ideaId', cors.corsWithOptions, authenticate.ver
   .catch(err => next(err));
 });
 
-// GET and POST to flaggedIdeas
 usersRouter.route('/flaggedIdeas')
 .all(cors.corsWithOptions, authenticate.verifyUser, (req,res,next) => {
   next();
 })
 .get((req,res,next) => {
-  Users.findById(req.user._id)
+  User.findById(req.user._id)
   .populate('flaggedIdeas')
   .then(user => {
     if (user) {
@@ -186,7 +193,7 @@ usersRouter.route('/flaggedIdeas')
   .catch(err => next(err));
 })
 .post((req,res,next) => {
-  Users.findById(req.user._id)
+  User.findById(req.user._id)
   .then(user => {
     if (user) {
       for (let i=0; i < req.body.length; i++) {
@@ -210,9 +217,8 @@ usersRouter.route('/flaggedIdeas')
   .catch(err => next(err));
 });
 
-// DELETE a specific idea from flaggedIdeas
 usersRouter.delete('/flaggedIdeas/:ideaId', cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
-  Users.findById(req.user._id)
+  User.findById(req.user._id)
   .then(user => {
     if (user) {
       const foundIdx = user.flaggedIdeas.indexOf(req.params.ideaId);

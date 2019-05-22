@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 const userSchema = mongoose.model('User').schema;
 
 const ideaSchema = new Schema({
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
   text: {
     type: String,
     required: true,
@@ -12,13 +16,11 @@ const ideaSchema = new Schema({
     type: Number,
     required: true,
     default: 0,
-    min: 0
   },
   flaggedRank: {
     type: Number,
     required: true,
     default: 0,
-    min: 0
   }
 }, {
     timestamps: true
