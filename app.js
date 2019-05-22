@@ -15,7 +15,8 @@ const mongoose = require('mongoose');
 
 const url = config.mongoUrl;
 const connect = mongoose.connect(url, { useNewUrlParser: true,
-                                        useCreateIndex: true });
+                                        useCreateIndex: true,
+                                        useFindAndModify: false });
 
 connect.then(db => {
   console.log('Connected to MongoDB server');
@@ -35,8 +36,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'not-my-idea-app/build')));
 app.use(passport.initialize());
-// don't need session with jwt?
-app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

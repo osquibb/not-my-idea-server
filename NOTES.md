@@ -62,3 +62,42 @@ app.get('/', function(req, res) {
 
 
 
+## HTTP REQUEST CHECKLIST
+- /ideas
+-- GET: OK
+-- PUT: OK
+-- POST: OK
+-- DELETE: OK
+
+- /ideas/:ideaId
+-- GET: OK
+-- PUT: OK
+-- POST: OK
+-- DELETE: MAYBE OK * (what about likeIdeas and flaggedIdeas of all users?)
+
+- /users
+-- GET: OK
+
+- /users/signup
+-- POST: OK
+
+- /users/login
+-- POST: OK
+
+- /users/likedIdeas
+-- GET: OK
+-- POST: OK * (But logic could be improved)
+
+- /users/likedIdeas/:ideaId
+-- DELETE: OK
+
+- /users/flaggedIdeas
+-- GET: OK
+-- POST: OK * (But logic could be improved)
+
+- /users/flaggedIdeas/:ideaId
+-- DELETE: OK
+
+
+
+
