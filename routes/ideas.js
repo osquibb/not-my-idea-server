@@ -4,6 +4,7 @@ const authenticate = require('../authenticate');
 const cors = require('../cors');
 
 const Ideas = require('../models/ideas');
+const User = require('../models/users');
 
 const ideasRouter = express.Router();
 ideasRouter.use(bodyParser.json());
@@ -70,13 +71,18 @@ ideasRouter.route('/:ideaId')
 // TODO: when deleting an idea, needs to be deleted from
 // every user's likedIdeas and flaggedIdeas ***
 .delete(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, (req,res,next) => {
-  Ideas.deleteOne({_id: req.params.ideaId})
-  .then(idea => {
-    console.log("Idea Deleted: ", idea);
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'application/json');
-    res.json(idea);
-  }, err => next(err))
+  User.update({},
+    {$pull: { "likedIdeas": req.params.ideaId,
+              "flaggedIdeas": req.params.ideaId }
+  })
+  .then(() => {
+    Ideas.deleteOne({_id: req.params.ideaId})
+    .then(idea => {
+      console.log("Idea Deleted: ", idea);
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json');
+      res.json(idea);
+    }, err => next(err))})
   .catch(err => next(err));
 });
 

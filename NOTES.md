@@ -73,7 +73,7 @@ app.get('/', function(req, res) {
 -- GET: OK
 -- PUT: OK
 -- POST: OK
--- DELETE: MAYBE OK * (what about likeIdeas and flaggedIdeas of all users?)
+-- DELETE: OK
 
 - /users
 -- GET: OK
