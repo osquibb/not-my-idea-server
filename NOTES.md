@@ -3,7 +3,8 @@
 
 157.230.54.50
 
-- express server on :3000
+- express server (HTTP) on :80
+- express server (HTTPS) on :443
 - mongodb server on localhost:27017
 (localhost is the droplet)
 
