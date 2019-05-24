@@ -147,8 +147,8 @@ usersRouter.route('/likedIdeas')
   .catch(err => next(err));
 })
 
-// user adds idea ids (from an array) to their likedIdeas
-// and each idea's likedRank is incremented
+/* user adds idea ids (from an array) to their likedIdeas
+and each idea's likedRank is incremented */
 .post((req,res,next) => {
   User.findById(req.user._id)
   .then(user => {
