@@ -91,7 +91,7 @@ usersRouter.post('/login', cors.corsWithOptions, (req, res, next) => {
   })(req, res, next);
 });
 
-router.get('/checkJWTTOKEN', cors.corsWithOptions, (req, res) => {
+usersRouter.get('/checkJWTTOKEN', cors.corsWithOptions, (req, res) => {
   passport.authenticate('jwt', {session: false}, (err, user, info) => {
     if (err)
       next(err);
