@@ -12,7 +12,7 @@ ideasRouter.use(bodyParser.json());
 ideasRouter.route('/')
 .options(cors.corsWithOptions, (req, res) => res.sendStatus(200))
 .get(cors.cors, (req,res,next) => { 
-  Ideas.find({})
+  Ideas.find({}).sort({likedRank: -1})
   .populate('author')
   .then(ideas => {
     res.statusCode = 200;
